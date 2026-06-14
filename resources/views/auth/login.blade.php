@@ -190,6 +190,12 @@
             Selamat datang kembali! Silakan masuk untuk melanjutkan
         </p>
 
+        @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        @endif
+
         <!-- Form -->
         <form action="" method="POST">
             @csrf
@@ -219,11 +225,13 @@
             <!-- Remember -->
             <div class="remember-forgot">
                 <div>
-                    <input type="checkbox">
-                    <label>Ingat Saya</label>
+                   <input type="checkbox">
+                   <label>Ingat Saya</label>
                 </div>
 
-                <a href="#">Lupa Kata Sandi?</a>
+                <a href="{{ url('/forgot-password') }}">
+                    Lupa Kata Sandi?
+                </a>
             </div>
 
             <!-- Button -->
