@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('pembayarans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('pendaftaran_id')->constrained()->onDelete('cascade');
+            $table->string('metode')->default('Transfer Bank BCA');
+            $table->decimal('jumlah', 15, 2)->default(0);
+            $table->decimal('biaya_admin', 15, 2)->default(0);
+            $table->decimal('total', 15, 2)->default(0);
+            $table->string('bukti_pembayaran')->nullable();
+            $table->date('tanggal_bayar')->nullable();
+            $table->enum('status', ['menunggu', 'terverifikasi', 'ditolak'])->default('menunggu');
             $table->timestamps();
         });
     }

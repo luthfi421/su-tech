@@ -13,6 +13,19 @@ return new class extends Migration
     {
         Schema::create('paket_umrahs', function (Blueprint $table) {
             $table->id();
+            $table->string('nama');
+            $table->string('tipe')->default('reguler'); // reguler, plus, vip
+            $table->text('deskripsi')->nullable();
+            $table->decimal('harga', 15, 2)->default(0);
+            $table->integer('durasi')->default(9); // jumlah hari
+            $table->string('hotel')->nullable();
+            $table->string('maskapai')->nullable();
+            $table->string('tanggal_berangkat')->nullable();
+            $table->string('lokasi_keberangkatan')->default('Jakarta');
+            $table->json('fasilitas')->nullable();
+            $table->json('itinerary')->nullable();
+            $table->string('image')->nullable();
+            $table->string('status')->default('aktif'); // aktif, nonaktif
             $table->timestamps();
         });
     }

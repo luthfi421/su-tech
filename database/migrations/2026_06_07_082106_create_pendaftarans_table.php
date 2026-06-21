@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('pendaftarans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('jamaah_id')->constrained()->onDelete('cascade');
+            $table->foreignId('paket_umrah_id')->constrained('paket_umrahs')->onDelete('cascade');
+            $table->date('tanggal_pendaftaran');
+            $table->enum('status', ['draft', 'pending', 'aktif', 'selesai', 'batal'])->default('pending');
+            $table->text('catatan')->nullable();
             $table->timestamps();
         });
     }
