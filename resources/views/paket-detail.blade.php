@@ -1,199 +1,93 @@
-<!doctype html>
-<html lang="id">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Detail Paket - Smart Umrah</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { background: #f5f5f5; color: #1b1b18; font-family: "Segoe UI", sans-serif; }
-      .container-detail { max-width: 480px; margin: 0 auto; background: #fff; min-height: 100vh; display: flex; flex-direction: column; }
-      .header-detail { padding: 16px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #e8eee9; }
-      .back-btn { background: none; border: none; color: #0c8a63; font-size: 1.25rem; cursor: pointer; display: flex; align-items: center; gap: 6px; text-decoration: none; font-weight: 600; }
-      .back-btn:hover { color: #087554; }
-      .back-btn.vip { color: #7c3aed; }
-      .back-btn.vip:hover { color: #6d28d9; }
-      .package-image { width: 100%; height: 200px; background: linear-gradient(135deg, #0c8a63, #087554); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 3rem; background-size: cover; background-position: center; }
-      .package-image.vip { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-      .package-image.vip-mosque { background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%25" style="stop-color:%23667eea;stop-opacity:1" /><stop offset="100%25" style="stop-color:%23764ba2;stop-opacity:1" /></linearGradient></defs><rect width="400" height="300" fill="url(%23sky)"/><circle cx="200" cy="80" r="40" fill="%23fbbf24" opacity="0.8"/></svg>'); background-attachment: fixed; }
-      .content-detail { flex: 1; padding: 20px; overflow-y: auto; }
-      .package-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; }
-      .package-badge { display: inline-block; background: #fbbf24; color: #78350f; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; margin-bottom: 8px; }
-      .package-badge.vip { background: #a78bfa; color: #fff; }
-      .package-price-section { margin-bottom: 20px; }
-      .price-label { color: #7d8d83; font-size: 0.8rem; margin-bottom: 4px; }
-      .price-value { font-size: 1.5rem; font-weight: 700; color: #0c8a63; margin-bottom: 4px; }
-      .price-value.vip { color: #a78bfa; }
-      .duration-text { color: #7d8d83; font-size: 0.9rem; }
-      .info-section { margin-bottom: 24px; background: #f9fafb; border-radius: 12px; padding: 16px; }
-      .info-section.vip { background: linear-gradient(135deg, #f3e8ff 0%, #f0e7ff 100%); }
-      .info-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 12px; color: #1b1b18; }
-      .info-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
-      .info-row:last-child { margin-bottom: 0; }
-      .info-icon { width: 32px; height: 32px; background: #e8f5f0; border-radius: 8px; display: grid; place-items: center; color: #0c8a63; font-size: 0.95rem; flex-shrink: 0; }
-      .info-icon.vip { background: #ddd6fe; color: #7c3aed; }
-      .info-content { flex: 1; }
-      .info-label { font-size: 0.85rem; color: #7d8d83; margin-bottom: 2px; }
-      .info-value { font-size: 0.9rem; font-weight: 600; }
-      .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-      .info-grid-item { padding: 12px; background: #fff; border-radius: 8px; }
-      .info-grid-item.vip { background: #fff; border: 1px solid #e9d5ff; }
-      .info-grid-label { font-size: 0.75rem; color: #7d8d83; margin-bottom: 4px; font-weight: 600; }
-      .info-grid-value { font-size: 0.9rem; font-weight: 700; color: #1b1b18; }
-      .itinerary-section h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 12px; }
-      .itinerary-item { display: flex; gap: 12px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #e8eee9; }
-      .itinerary-item:last-child { border-bottom: none; }
-      .itinerary-day { width: 40px; height: 40px; background: #e8f5f0; border-radius: 8px; display: grid; place-items: center; color: #0c8a63; font-weight: 700; font-size: 0.9rem; flex-shrink: 0; }
-      .itinerary-day.vip { background: #ddd6fe; color: #7c3aed; }
-      .itinerary-content h5 { margin: 0 0 4px; font-size: 0.9rem; font-weight: 600; }
-      .itinerary-content p { margin: 0; font-size: 0.8rem; color: #7d8d83; }
-      .footer-btn { padding: 16px; border-top: 1px solid #e8eee9; margin-top: auto; }
-      .btn-daftar { width: 100%; background: #0c8a63; color: #fff; border: none; border-radius: 12px; padding: 14px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all .2s; }
-      .btn-daftar:hover { background: #087554; }
-      .btn-daftar.vip { background: #a78bfa; }
-      .btn-daftar.vip:hover { background: #9370db; }
-      @media (min-width: 768px) { .container-detail { max-width: 100%; border-right: 1px solid #e8eee9; } }
-    </style>
-  </head>
-  <body>
-    <div class="container-detail">
-      <div class="header-detail">
-        <a href="/dashboard" class="back-btn {{ $package['id'] == 3 ? 'vip' : '' }}">
-          <i class="fa-solid fa-chevron-left"></i> Detail Paket
-        </a>
-      </div>
+@extends('layouts.jamaah', ['user' => auth()->user()])
 
-      <div class="package-image {{ $package['id'] == 3 ? 'vip vip-mosque' : '' }}">
-        <i class="fa-solid fa-mosque"></i>
-      </div>
+@section('title', 'Detail Paket - ' . $paket->nama)
 
-      <div class="content-detail">
-        @if($package['id'] == 3)
-        <div class="package-badge vip">PREMIUM</div>
-        @endif
-        <h1 class="package-title">{{ $package['name'] }}</h1>
-
-        <div class="package-price-section">
-          <p class="price-label">Harga</p>
-          <p class="price-value {{ $package['id'] == 3 ? 'vip' : '' }}">Rp {{ number_format($package['price'], 0, ',', '.') }}</p>
-          <p class="duration-text">{{ $package['duration'] }}</p>
-        </div>
-
-        @if($package['id'] == 3)
-        <div class="info-section vip">
-          <h3 class="info-title">Informasi Paket</h3>
-          <div class="info-grid">
-            <div class="info-grid-item vip">
-              <div class="info-grid-label">Tanggal Berangkat</div>
-              <div class="info-grid-value">{{ $package['departure_date'] }}</div>
-            </div>
-            <div class="info-grid-item vip">
-              <div class="info-grid-label">Keberangkatan</div>
-              <div class="info-grid-value">{{ $package['departure_airline'] ?? 'Jakarta' }}</div>
-            </div>
-            <div class="info-grid-item vip">
-              <div class="info-grid-label">Lokasi</div>
-              <div class="info-grid-value">Makkah & Madinah</div>
-            </div>
-            <div class="info-grid-item vip">
-              <div class="info-grid-label">Hotel</div>
-              <div class="info-grid-value">{{ $package['hotel'] }}</div>
-            </div>
-          </div>
-        </div>
-        @else
-        <div class="info-section">
-          <h3 class="info-title">Informasi Paket</h3>
-          
-          <div class="info-row">
-            <div class="info-icon"><i class="fa-solid fa-calendar"></i></div>
-            <div class="info-content">
-              <p class="info-label">Tanggal Berangkat</p>
-              <p class="info-value">{{ $package['departure_date'] }}</p>
-            </div>
-          </div>
-
-          <div class="info-row">
-            <div class="info-icon"><i class="fa-solid fa-map-location-dot"></i></div>
-            <div class="info-content">
-              <p class="info-label">Keberangkatan</p>
-              <p class="info-value">Jakarta</p>
-            </div>
-          </div>
-
-          <div class="info-row">
-            <div class="info-icon"><i class="fa-solid fa-person-hiking"></i></div>
-            <div class="info-content">
-              <p class="info-label">Lokasi</p>
-              <p class="info-value">Makkah dan Madinah</p>
-            </div>
-          </div>
-
-          <div class="info-row">
-            <div class="info-icon"><i class="fa-solid fa-building"></i></div>
-            <div class="info-content">
-              <p class="info-label">Hotel</p>
-              <p class="info-value">{{ $package['hotel'] }}</p>
-            </div>
-          </div>
-        </div>
-        @endif
-
-        @if(!empty($package['additional_facilities']))
-        <div class="info-section {{ $package['id'] == 3 ? 'vip' : '' }}">
-          <h3 class="info-title">{{ $package['id'] == 3 ? 'Fasilitas Eksklusif' : 'Fasilitas Tambahan' }}</h3>
-          
-          @foreach($package['additional_facilities'] as $facility)
-          <div class="info-row">
-            <div class="info-icon {{ $package['id'] == 3 ? 'vip' : '' }}"><i class="fa-solid fa-star"></i></div>
-            <div class="info-content">
-              <p class="info-value">{{ $facility }}</p>
-            </div>
-          </div>
-          @endforeach
-        </div>
-        @endif
-
-        <div class="info-section {{ $package['id'] == 3 ? 'vip' : '' }}">
-          <h3 class="info-title">{{ !empty($package['additional_facilities']) ? 'Fasilitas Utama' : 'Fasilitas' }}</h3>
-          
-          @foreach($package['main_facilities'] ?? $package['facilities'] as $facility)
-          <div class="info-row">
-            <div class="info-icon {{ $package['id'] == 3 ? 'vip' : '' }}"><i class="fa-solid fa-check"></i></div>
-            <div class="info-content">
-              <p class="info-value">{{ $facility }}</p>
-            </div>
-          </div>
-          @endforeach
-        </div>
-
-        <div class="info-section {{ $package['id'] == 3 ? 'vip' : '' }}">
-          <h3 class="info-title">Itinerary</h3>
-          
-          @foreach($package['itinerary'] as $item)
-          <div class="itinerary-item">
-            <div class="itinerary-day {{ $package['id'] == 3 ? 'vip' : '' }}">{{ $item['day'] }}</div>
-            <div class="itinerary-content">
-              <h5>{{ $item['title'] }}</h5>
-              <p>{{ $item['desc'] }}</p>
-            </div>
-          </div>
-          @endforeach
-        </div>
-      </div>
-
-      <div class="footer-btn">
-        <button class="btn-daftar {{ $package['id'] == 3 ? 'vip' : '' }}" onclick="registerPackage({{ $package['id'] }})">Daftar Paket Ini</button>
-      </div>
+@section('content')
+    <div style="color: #6b7a70; font-size: .95rem; margin-bottom: 16px;">
+        <a href="{{ route('dashboard') }}" style="color: #0c8a63; text-decoration: none;">Dashboard</a> &rsaquo;
+        <strong>{{ $paket->nama }}</strong>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-      function registerPackage(packageId) {
-        window.location.href = '/pendaftaran/' + packageId;
-      }
-    </script>
-  </body>
-</html>
+    <div style="background: linear-gradient(135deg, #0c8a63, #087554); border-radius: 20px; padding: 40px; color: #fff; text-align: center; margin-bottom: 24px;">
+        <i class="fa-solid fa-mosque" style="font-size: 3rem; margin-bottom: 12px;"></i>
+        <h1 style="font-size: 1.75rem; font-weight: 700; margin-bottom: 8px;">{{ $paket->nama }}</h1>
+        <p style="font-size: 1.2rem; opacity: 0.9;">Rp {{ number_format($paket->harga, 0, ',', '.') }}</p>
+        <p style="opacity: 0.85;">{{ $paket->durasi_text }}</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
+        <div style="background: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+            <div style="color: #7d8d83; font-size: 0.8rem; margin-bottom: 6px;"><i class="fa-solid fa-calendar"></i> Tanggal Berangkat</div>
+            <div style="font-weight: 700;">{{ $paket->tanggal_berangkat ?? 'Jadwal menyusul' }}</div>
+        </div>
+        <div style="background: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+            <div style="color: #7d8d83; font-size: 0.8rem; margin-bottom: 6px;"><i class="fa-solid fa-location-dot"></i> Keberangkatan</div>
+            <div style="font-weight: 700;">{{ $paket->lokasi_keberangkatan ?? 'Jakarta' }}</div>
+        </div>
+        <div style="background: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+            <div style="color: #7d8d83; font-size: 0.8rem; margin-bottom: 6px;"><i class="fa-solid fa-hotel"></i> Hotel</div>
+            <div style="font-weight: 700;">{{ $paket->hotel ?? '-' }}</div>
+        </div>
+        <div style="background: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+            <div style="color: #7d8d83; font-size: 0.8rem; margin-bottom: 6px;"><i class="fa-solid fa-plane"></i> Maskapai</div>
+            <div style="font-weight: 700;">{{ $paket->maskapai ?? '-' }}</div>
+        </div>
+    </div>
+
+    @if(!empty($paket->deskripsi))
+    <div style="background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 24px;">
+        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 12px;">Deskripsi Paket</h3>
+        <p style="color: #4b6858; line-height: 1.7; margin: 0;">{{ $paket->deskripsi }}</p>
+    </div>
+    @endif
+
+    @if(!empty($paket->fasilitas))
+    <div style="background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 24px;">
+        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 16px;">Fasilitas</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
+            @foreach($paket->fasilitas as $fasilitas)
+            <div style="display: flex; align-items: center; gap: 10px; color: #4b6858;">
+                <i class="fa-solid fa-check" style="color: #0c8a63;"></i> {{ $fasilitas }}
+            </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
+
+    @if(!empty($paket->itinerary))
+    <div style="background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 24px;">
+        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 16px;">Itinerary Perjalanan</h3>
+        @foreach($paket->itinerary as $item)
+        <div style="display: flex; gap: 16px; padding-bottom: 16px; margin-bottom: 16px; border-bottom: 1px solid #f0f4ef;">
+            <div style="width: 60px; height: 50px; background: #e8f5f0; border-radius: 12px; display: grid; place-items: center; color: #0c8a63; font-weight: 700; font-size: 0.75rem; flex-shrink: 0; text-align: center; padding: 4px;">
+                {{ $item['day'] }}
+            </div>
+            <div>
+                <h5 style="margin: 0 0 4px; font-size: 0.95rem; font-weight: 600;">{{ $item['title'] }}</h5>
+                <p style="margin: 0; font-size: 0.85rem; color: #7d8d83;">{{ $item['desc'] }}</p>
+            </div>
+        </div>
+        @endforeach
+    </div>
+    @endif
+
+    @if($pakets->where('id', '!=', $paket->id)->count() > 0)
+    <div style="background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 24px;">
+        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 12px;">Paket Lainnya</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+            @foreach($pakets->where('id', '!=', $paket->id) as $p)
+            <a href="{{ route('paket.detail', $p->id) }}" style="display: block; padding: 14px; border: 1px solid #e8eee9; border-radius: 12px; text-decoration: none; color: #1b1b18; transition: all .2s;">
+                <strong>{{ $p->nama }}</strong>
+                <div style="color: #0c8a63; font-size: 0.85rem; margin-top: 4px;">Rp {{ number_format($p->harga / 1000000, 1, ',', '.') }} jt</div>
+            </a>
+            @endforeach
+        </div>
+    </div>
+    @endif
+
+    <div style="position: sticky; bottom: 0; background: #f5f5f5; padding: 16px 0;">
+        <a href="{{ route('pendaftaran.show', $paket->id) }}" style="display: block; background: #0c8a63; color: #fff; text-align: center; border-radius: 12px; padding: 16px; font-weight: 700; font-size: 1.05rem; text-decoration: none; transition: background .2s;">
+            <i class="fa-solid fa-edit"></i> Daftar Paket Ini
+        </a>
+    </div>
+@endsection
