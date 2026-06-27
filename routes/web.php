@@ -23,7 +23,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $pakets = \App\Models\PaketUmrah::where('status', 'aktif')
+        ->orderBy('harga')
+        ->take(3)
+        ->get();
+
+    return view('welcome', ['pakets' => $pakets]);
 })->name('home');
 
 /*
